@@ -1,5 +1,7 @@
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Moq;
+using TradePowerWinService.Config;
 using TradePowerWinService.Models;
 using TradePowerWinService.Services;
 
@@ -21,9 +23,13 @@ namespace TradePowerWinService.Tests.Services
             var date = DateTime.Now;
             var dateTimeService = new Mock<IDateTimeService>();
             dateTimeService.Setup(x => x.GetDateTime()).Returns(date);
+
+            var serviceConfig = new ServiceConfig() { ExportPath = path };
+            var option = new Mock<IOptions<ServiceConfig>>();
+            option.Setup(x => x.Value).Returns(serviceConfig);
             
-            new ExportService(configuration.Object, dateTimeService.Object).Export(new List<PowerTradeExportDTO>());
-            var exportedFilePath = $"{path}\\{ExportService.GetExportFileName(date)}";
+            new ExportService(configuration.Object, dateTimeService.Object, option.Object).Export(new List<PowerTradeExportDTO>());
+            var exportedFilePath = ExportService.GetExportedFilePath(path,ExportService.GetExportFileName(date));
             Assert.IsTrue(File.Exists(exportedFilePath));
         }
     }

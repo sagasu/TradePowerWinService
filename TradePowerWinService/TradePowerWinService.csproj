@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Config\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="PowerService">
       <HintPath>Libs\PowerService.dll</HintPath>
     </Reference>
