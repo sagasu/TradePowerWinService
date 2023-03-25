@@ -8,7 +8,7 @@ namespace TradePowerWinService.Services
 {
     public interface IExportService
     {
-        void Export(IEnumerable<PowerTradeExportDTO> powerTrades);
+        void Export(IEnumerable<AggregatedPowerDto> aggregatedPowerDtos);
     }
 
     public class ExportService : IExportService
@@ -25,7 +25,7 @@ namespace TradePowerWinService.Services
         public static string GetExportFileName (DateTime date) => $"PowerPosition_{date.ToString("YYYYMMDD_HHMM")}.csv";
         public static string GetExportFilePath (string path, string fileName) => Path.Combine(path, fileName);
 
-        public void Export(IEnumerable<PowerTradeExportDTO> powerTrades)
+        public void Export(IEnumerable<AggregatedPowerDto> aggregatedPowerDtos)
         {
             var date = _dateTimeService.GetDateTime();
             var path = GetExportFilePath(_serviceConfig.ExportPath, GetExportFileName(date));
@@ -33,7 +33,7 @@ namespace TradePowerWinService.Services
             using (var writer = new StreamWriter(path))
             using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
             {
-                csv.WriteRecords(powerTrades);
+                csv.WriteRecords(aggregatedPowerDtos);
             }
         }
     }

@@ -22,7 +22,7 @@ namespace TradePowerWinService.Tests.Services
             var option = new Mock<IOptions<ServiceConfig>>();
             option.Setup(x => x.Value).Returns(serviceConfig);
             
-            new ExportService(dateTimeService.Object, option.Object).Export(new List<PowerTradeExportDTO>());
+            new ExportService(dateTimeService.Object, option.Object).Export(new List<AggregatedPowerDto>());
             var exportedFilePath = ExportService.GetExportFilePath(exportPath,ExportService.GetExportFileName(date));
             Assert.IsTrue(File.Exists(exportedFilePath));
         }

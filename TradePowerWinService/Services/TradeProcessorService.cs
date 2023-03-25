@@ -20,9 +20,13 @@ namespace TradePowerWinService.Services
 
         public async Task ProcessTrade()
         {
-            var powerTrades = await _tradeDataService.GetTradeData();
-            var powerTradesDTOs = new List<PowerTradeExportDTO>();
-            _exportService.Export(powerTradesDTOs);
+            var powerTradesDtos = await _tradeDataService.GetTradeData();
+            var aggregatedDtos = powerTradesDtos.Select(powerTrade => new AggregatedPowerDto
+            {
+                LocalTime = powerTrade.Dates,
+                Volume = powerTrade.Periods.Sum(_ => _.Volume)
+            });
+            _exportService.Export(aggregatedDtos);
         }
     }
 }

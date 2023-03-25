@@ -1,9 +1,11 @@
 ﻿using Services;
+using TradePowerWinService.Models;
+
 namespace TradePowerWinService.Services
 {
     public interface ITradeDataService
     {
-        Task<IEnumerable<PowerTrade>> GetTradeData();
+        Task<IEnumerable<PowerTradeDto>> GetTradeData();
     }
 
     public class TradeDataService : ITradeDataService
@@ -17,11 +19,16 @@ namespace TradePowerWinService.Services
             _dateTimeService = dateTimeService;
         }
 
-        public async Task<IEnumerable<PowerTrade>> GetTradeData()
+        public async Task<IEnumerable<PowerTradeDto>> GetTradeData()
         {
             var date = _dateTimeService.GetDateTime();
             var trades = await _powerService.GetTradesAsync(date);
-            return trades;
+            var tradesDtos = trades.Select(x => new PowerTradeDto
+            {
+                Periods = x.Periods.Select(period => new PowerPeriodDto { Period = period.Period, Volume = period.Volume }),
+                Dates = x.Date
+            });
+            return tradesDtos;
         }
     }
 }
