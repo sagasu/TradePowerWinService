@@ -9,6 +9,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddTransient<ITradeDataService, TradeDataService>();
         services.AddTransient<ITradeProcessorService, TradeProcessorService>();
         services.AddTransient<IExportService, ExportService>();
+        services.AddTransient<IDateTimeService, DateTimeService>();
         services.AddHostedService<Worker>();
         services.AddHostedService<TimedService>();
     })

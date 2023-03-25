@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TradePowerWinService.Models;
 
 namespace TradePowerWinService.Services
 {
@@ -25,7 +26,8 @@ namespace TradePowerWinService.Services
         public async Task ProcessTrade()
         {
             var powerTrades = await _tradeDataService.GetTradeData();
-            _exportService.Export(powerTrades);
+            var powerTradesDTOs = new List<PowerTradeExportDTO>();
+            _exportService.Export(powerTradesDTOs);
         }
     }
 }
