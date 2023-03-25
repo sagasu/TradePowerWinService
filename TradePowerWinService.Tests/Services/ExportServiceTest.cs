@@ -24,6 +24,7 @@ namespace TradePowerWinService.Tests.Services
             
             new ExportService(dateTimeService.Object, option.Object).Export(new List<AggregatedPowerDto>());
             var exportedFilePath = ExportService.GetExportFilePath(exportPath,ExportService.GetExportFileName(date));
+
             Assert.IsTrue(File.Exists(exportedFilePath));
         }
     }
