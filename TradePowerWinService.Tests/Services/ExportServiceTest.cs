@@ -12,7 +12,7 @@ namespace TradePowerWinService.Tests.Services
         [TestMethod]
         public void Export_DataProvided_FileExported()
         {
-            var exportPath = "C:\\Users\\mattk\\AppData\\Local\\Temp";
+            var exportPath = Path.GetTempPath();
 
             var date = DateTime.Now;
             var dateTimeService = new Mock<IDateTimeService>();

@@ -5,7 +5,7 @@ namespace TradePowerWinService.Services
     public interface ITradeProcessorService
     {
         Task ProcessTrade();
-        IList<AggregatedPowerDto> GetAggregatedPowerDtos(IList<PowerTradeDto> powerTradesDtos);
+        IList<AggregatedPowerDto> GetAggregatedPowerDtos(IEnumerable<PowerTradeDto> powerTradesDtos);
     }
 
     public class TradeProcessorService : ITradeProcessorService
@@ -26,14 +26,13 @@ namespace TradePowerWinService.Services
         {
             var powerTradesDtos = await _tradeDataService.GetTradeData();
 
-            var aggregatedDtos = GetAggregatedPowerDtos(powerTradesDtos.ToList());
+            var aggregatedDtos = GetAggregatedPowerDtos(powerTradesDtos);
 
             _exportService.Export(aggregatedDtos);
         }
 
-        public IList<AggregatedPowerDto> GetAggregatedPowerDtos(IList<PowerTradeDto> powerTradesDtos)
+        public IList<AggregatedPowerDto> GetAggregatedPowerDtos(IEnumerable<PowerTradeDto> powerTradesDtos)
         {
-            var hourInc = 0;
             var startTime = _dateTimeService.Parse(START_TIME);
             var aggregatedDtos = new List<AggregatedPowerDto>();
 
@@ -43,10 +42,8 @@ namespace TradePowerWinService.Services
                 foreach (var powerPeriodDto in powerTradesDto.Periods)
                 {
                     if (aggregatedDtos.ElementAtOrDefault(i) == null)
-                    {
-                        aggregatedDtos.Add(new AggregatedPowerDto());
-                        aggregatedDtos[i].LocalTime = startTime.AddHours(i);
-                    }
+                        aggregatedDtos.Add(new AggregatedPowerDto{ LocalTime = startTime.AddHours(i) });
+                    
                     aggregatedDtos[i].Volume += powerPeriodDto.Volume;
                     i++;
                 }
