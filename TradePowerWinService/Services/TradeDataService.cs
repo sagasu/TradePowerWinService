@@ -26,7 +26,7 @@ namespace TradePowerWinService.Services
             var tradesDtos = trades.Select(x => new PowerTradeDto
             {
                 Periods = x.Periods.Select(period => new PowerPeriodDto { Period = period.Period, Volume = period.Volume }),
-                Dates = x.Date
+                Date = x.Date
             });
             return tradesDtos;
         }

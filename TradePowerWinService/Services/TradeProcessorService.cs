@@ -23,7 +23,7 @@ namespace TradePowerWinService.Services
             var powerTradesDtos = await _tradeDataService.GetTradeData();
             var aggregatedDtos = powerTradesDtos.Select(powerTrade => new AggregatedPowerDto
             {
-                LocalTime = powerTrade.Dates,
+                LocalTime = powerTrade.Date,
                 Volume = powerTrade.Periods.Sum(_ => _.Volume)
             });
             _exportService.Export(aggregatedDtos);

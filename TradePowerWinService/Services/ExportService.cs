@@ -22,7 +22,7 @@ namespace TradePowerWinService.Services
             _serviceConfig = serviceConfig.Value;
         }
 
-        public static string GetExportFileName (DateTime date) => $"PowerPosition_{date.ToString("YYYYMMDD_HHMM")}.csv";
+        public static string GetExportFileName (DateTime date) => $"PowerPosition_{date.ToString("yyyyMMdd_HHmm")}.csv";
         public static string GetExportFilePath (string path, string fileName) => Path.Combine(path, fileName);
 
         public void Export(IEnumerable<AggregatedPowerDto> aggregatedPowerDtos)
