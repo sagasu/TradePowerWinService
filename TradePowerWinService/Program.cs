@@ -1,6 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
 using Services;
-using TradePowerWinService;
 using TradePowerWinService.Config;
 using TradePowerWinService.Services;
 
@@ -12,7 +10,6 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddTransient<ITradeProcessorService, TradeProcessorService>();
         services.AddTransient<IExportService, ExportService>();
         services.AddTransient<IDateTimeService, DateTimeService>();
-        services.AddHostedService<Worker>();
         services.AddHostedService<TimedService>();
         services.Configure<ServiceConfig>(context.Configuration.GetSection(ServiceConfig.ServiceConfigName));
     })

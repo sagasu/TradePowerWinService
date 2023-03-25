@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Services;
+﻿using Services;
 namespace TradePowerWinService.Services
 {
     public interface ITradeDataService
@@ -14,15 +9,17 @@ namespace TradePowerWinService.Services
     public class TradeDataService : ITradeDataService
     {
         private readonly IPowerService _powerService;
+        private readonly IDateTimeService _dateTimeService;
 
-        public TradeDataService(IPowerService powerService)
+        public TradeDataService(IPowerService powerService, IDateTimeService dateTimeService)
         {
             _powerService = powerService;
+            _dateTimeService = dateTimeService;
         }
 
         public async Task<IEnumerable<PowerTrade>> GetTradeData()
         {
-            var date = DateTime.Now.AddHours(-100);
+            var date = _dateTimeService.GetDateTime();
             var trades = await _powerService.GetTradesAsync(date);
             return trades;
         }
