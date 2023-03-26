@@ -13,11 +13,20 @@ namespace TradePowerWinService.Tests.Services
         [TestMethod]
         public void Export_DataProvided_FileExported()
         {
-            var exportPath = Path.GetTempPath();
+            var anyExportPath = Path.GetTempPath();
+            var anyDate = DateTime.Now;
+            var exportService = GetExportService(anyDate, anyExportPath);
 
-            var date = DateTime.Now;
+            exportService.Export(new List<AggregatedPowerDto>());
+
+            var exportedFilePath = ExportService.GetExportFilePath(anyExportPath, ExportService.GetExportFileName(anyDate));
+            Assert.IsTrue(File.Exists(exportedFilePath));
+        }
+
+        private static ExportService GetExportService(DateTime anyDate, string exportPath)
+        {
             var dateTimeService = new Mock<IDateTimeService>();
-            dateTimeService.Setup(x => x.GetDateTime()).Returns(date);
+            dateTimeService.Setup(x => x.GetDateTime()).Returns(anyDate);
 
             var serviceConfig = new ServiceConfig() { ExportPath = exportPath };
             var option = new Mock<IOptions<ServiceConfig>>();
@@ -25,10 +34,8 @@ namespace TradePowerWinService.Tests.Services
 
             var logger = new Mock<ILogger<ExportService>>();
 
-            new ExportService(logger.Object, dateTimeService.Object, option.Object).Export(new List<AggregatedPowerDto>());
-            var exportedFilePath = ExportService.GetExportFilePath(exportPath,ExportService.GetExportFileName(date));
-
-            Assert.IsTrue(File.Exists(exportedFilePath));
+            var exportService = new ExportService(logger.Object, dateTimeService.Object, option.Object);
+            return exportService;
         }
     }
 }
