@@ -31,7 +31,7 @@ namespace TradePowerWinService.Services
             return Task.CompletedTask;
         }
 
-        private async void DoWork(object? state)
+        public async void DoWork(object? state)
         {
             _logger.LogInformation(RUNNING_MESSAGE);
             try
