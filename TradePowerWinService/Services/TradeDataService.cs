@@ -5,7 +5,7 @@ namespace TradePowerWinService.Services
 {
     public interface ITradeDataService
     {
-        Task<IEnumerable<PowerTradeDto>> GetTradeData();
+        Task<IEnumerable<PowerTradeDto>> GetPowerTrades();
     }
 
     public class TradeDataService : ITradeDataService
@@ -22,7 +22,7 @@ namespace TradePowerWinService.Services
             _dateTimeService = dateTimeService;
         }
 
-        public async Task<IEnumerable<PowerTradeDto>> GetTradeData()
+        public async Task<IEnumerable<PowerTradeDto>> GetPowerTrades()
         {
             _logger.LogInformation(FETCHING_TRADES_MESSAGE);
             var date = _dateTimeService.GetDateTime();

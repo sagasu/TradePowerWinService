@@ -24,7 +24,7 @@ namespace TradePowerWinService.Services
 
         public async Task ProcessTrade()
         {
-            var powerTradesDtos = await _tradeDataService.GetTradeData();
+            var powerTradesDtos = await _tradeDataService.GetPowerTrades();
 
             var aggregatedDtos = GetAggregatedPowerDtos(powerTradesDtos);
 

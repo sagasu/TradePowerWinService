@@ -18,7 +18,7 @@ namespace TradePowerWinService.Tests.Services
             var tradeDataService = new Mock<ITradeDataService>();
             var exportService = new Mock<IExportService>();
             var dateTimeService = new Mock<IDateTimeService>();
-            dateTimeService.Setup(x => x.Parse(It.IsAny<string>())).Returns(DateTime.Parse("23:00"));
+            dateTimeService.Setup(x => x.Parse(It.IsAny<string>())).Returns(DateTime.Parse(TradeProcessorService.START_TIME));
             var powerTradeDtos = new List<PowerTradeDto>
             {
                 new PowerTradeDto{Date = DateTime.Now, Periods = new List<PowerPeriodDto>{ new PowerPeriodDto{Period = 0, Volume = 1}, new PowerPeriodDto{Period = 1, Volume = 2}, new PowerPeriodDto{Period = 2, Volume = 3}}},
