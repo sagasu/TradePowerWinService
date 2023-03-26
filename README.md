@@ -4,6 +4,10 @@ I implemented a solution as a `windows service` just as was requested in the req
 * Docker running in K8s - If I don't want to vendor lock I can just implement a simple `C# library` or `Console application` that runs in Docker container and delegate triggering it (scheduling) to K8s  
 * [Hangfire](https://www.hangfire.io/) scheduler job. I would consider using Hellfire or a similar schedule only if Azure Function or K8s solution is not an option. Still using Hellfire is much better in long run (maintainability, simplicity, observability) than implementing old-school `Windows Service`  
 
+# Time problem with data returned from PowerService.dll
+In the examples provided with the exercise `PowerService.GetTrades` method returns 24 periods. When I call this method, I receive only 23 periods. I don't know where is the missing period. I thought at the beginning that I need to add last period from a previous day, but this statement from exercise: "The PowerTrade class contains an array of PowerPeriods for the given day. The period number starts at
+1, which is the first period of the day and starts at 23:00 (11 pm) on the previous day." makes me believe that I should have all the data that I need. My aggregated period only exports hours to 21:00 and I don't have 22:00 due to that.
+
 # Few words about codebase
 * It is a code smell to close bind your application to an external library model, to address this I implement a DTO layer so the code base is agnostic from `PowerService.dll`. I am a huge fan of not ever binding to external library models because it is really hard to change an app when a model in dll changes.
 * I implemented `date time service pattern` it is a common approach if you want to unit test an application and have full control over the date. It helps in making sure that time across the entire application is the same, and it is easy to control it. Makes it easier to change from local time to UTC if needed.
