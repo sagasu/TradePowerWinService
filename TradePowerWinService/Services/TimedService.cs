@@ -25,13 +25,13 @@ namespace TradePowerWinService.Services
         {
             _logger.LogInformation(STARTING_MESSAGE);
 
-            _timer = new Timer(DoWork, null, TimeSpan.Zero,
-                TimeSpan.FromSeconds(5));
+            _timer = new Timer(ProcessTrade, null, TimeSpan.Zero,
+                TimeSpan.FromMinutes(_serviceConfig.RunEveryMinutes));
 
             return Task.CompletedTask;
         }
 
-        public async void DoWork(object? state)
+        public async void ProcessTrade(object? state)
         {
             _logger.LogInformation(RUNNING_MESSAGE);
             try

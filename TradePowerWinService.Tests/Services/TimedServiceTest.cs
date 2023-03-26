@@ -10,14 +10,14 @@ namespace TradePowerWinService.Tests.Services
     public class TimedServiceTest
     {
         [TestMethod]
-        public void DoWork_NoExtraContext_ProcessTradeIsBeingCalled()
+        public void ProcessTrade_NoExtraContext_ProcessTradeIsBeingCalled()
         {
             var tradeProcessorService = new Mock<ITradeProcessorService>();
             tradeProcessorService.Setup(x => x.ProcessTrade()).Returns(Task.CompletedTask);
             var processTrade = GetProcessTrade(tradeProcessorService);
             var anyObject = new Object();
 
-            processTrade.DoWork(anyObject);
+            processTrade.ProcessTrade(anyObject);
 
             tradeProcessorService.Verify(x => x.ProcessTrade(), Times.Once);
         }
