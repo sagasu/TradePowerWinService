@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using TradePowerWinService.Config;
@@ -21,8 +22,10 @@ namespace TradePowerWinService.Tests.Services
             var serviceConfig = new ServiceConfig() { ExportPath = exportPath };
             var option = new Mock<IOptions<ServiceConfig>>();
             option.Setup(x => x.Value).Returns(serviceConfig);
-            
-            new ExportService(dateTimeService.Object, option.Object).Export(new List<AggregatedPowerDto>());
+
+            var logger = new Mock<ILogger<ExportService>>();
+
+            new ExportService(logger.Object, dateTimeService.Object, option.Object).Export(new List<AggregatedPowerDto>());
             var exportedFilePath = ExportService.GetExportFilePath(exportPath,ExportService.GetExportFileName(date));
 
             Assert.IsTrue(File.Exists(exportedFilePath));

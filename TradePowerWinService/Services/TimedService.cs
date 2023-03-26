@@ -9,6 +9,10 @@ namespace TradePowerWinService.Services
         private readonly ITradeProcessorService _tradeProcessorService;
         private readonly ServiceConfig _serviceConfig;
         private Timer _timer;
+        private const string STARTING_MESSAGE = "Service is starting.";
+        private const string RUNNING_MESSAGE = "Service is running.";
+        private const string STOPPING_MESSAGE = "Service is stopping.";
+        private const string ERROR_MESSAGE = "Error happened, restarting entire service.";
 
         public TimedService(ILogger<TimedService> logger, ITradeProcessorService tradeProcessorService, IOptions<ServiceConfig> serviceConfig)
         {
@@ -19,9 +23,7 @@ namespace TradePowerWinService.Services
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            if (cancellationToken.IsCancellationRequested) return Task.CompletedTask;
-
-            _logger.LogInformation("Service is starting.");
+            _logger.LogInformation(STARTING_MESSAGE);
 
             _timer = new Timer(DoWork, null, TimeSpan.Zero,
                 TimeSpan.FromSeconds(5));
@@ -31,13 +33,21 @@ namespace TradePowerWinService.Services
 
         private async void DoWork(object? state)
         {
-            _logger.LogInformation("Service is running.");
-            await _tradeProcessorService.ProcessTrade();
+            _logger.LogInformation(RUNNING_MESSAGE);
+            try
+            {
+                await _tradeProcessorService.ProcessTrade();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ERROR_MESSAGE);
+                Environment.Exit(1);
+            }
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Service is stopping.");
+            _logger.LogInformation(STOPPING_MESSAGE);
 
             _timer?.Change(Timeout.Infinite, 0);
 
