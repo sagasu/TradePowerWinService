@@ -26,7 +26,7 @@ namespace TradePowerWinService.Services
         }
 
         public static string GetExportFileName (DateTime date) => $"PowerPosition_{date.ToString("yyyyMMdd_HHmm")}.csv";
-        public static string GetExportFilePath (string path, string fileName) => Path.Combine(path, fileName);
+        public static string GetExportFilePath (string? path, string fileName) => Path.Combine(path ?? string.Empty, fileName);
 
         public void Export(IEnumerable<AggregatedPowerDto> aggregatedPowerDtos)
         {

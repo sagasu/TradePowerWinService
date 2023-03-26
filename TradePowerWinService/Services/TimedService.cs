@@ -8,7 +8,7 @@ namespace TradePowerWinService.Services
         private readonly ILogger<TimedService> _logger;
         private readonly ITradeProcessorService _tradeProcessorService;
         private readonly ServiceConfig _serviceConfig;
-        private Timer _timer;
+        private Timer? _timer;
         private const string STARTING_MESSAGE = "Service is starting.";
         private const string RUNNING_MESSAGE = "Service is running.";
         private const string STOPPING_MESSAGE = "Service is stopping.";
