@@ -14,7 +14,7 @@ namespace TradePowerWinService.Tests.Services
         {
             var firstTradeFirstPeriodVolume = 3;
             var secondTradeFirstPeriodVolume = 4;
-            var powerTradeDtos = GetPowerTradeDtos(firstTradeFirstPeriodVolume: firstTradeFirstPeriodVolume, secondTradeFirstPeriodVolume: secondTradeFirstPeriodVolume);
+            var powerTradeDtos = GetTwoPowerTradeDtos(firstTradeFirstPeriodVolume: firstTradeFirstPeriodVolume, secondTradeFirstPeriodVolume: secondTradeFirstPeriodVolume);
             var tradeProcessorService = GetTradeProcessorService();
             
             var aggregatedPowerDtos = tradeProcessorService.GetAggregatedPowerDtos(powerTradeDtos);
@@ -27,7 +27,7 @@ namespace TradePowerWinService.Tests.Services
         {
             var firstTradeSecondPeriodVolume = 5;
             var secondTradeSecondPeriodVolume = 6;
-            var powerTradeDtos = GetPowerTradeDtos(firstTradeSecondPeriodVolume: firstTradeSecondPeriodVolume, secondTradeSecondPeriodVolume: secondTradeSecondPeriodVolume);
+            var powerTradeDtos = GetTwoPowerTradeDtos(firstTradeSecondPeriodVolume: firstTradeSecondPeriodVolume, secondTradeSecondPeriodVolume: secondTradeSecondPeriodVolume);
             var tradeProcessorService = GetTradeProcessorService();
             
 
@@ -35,8 +35,20 @@ namespace TradePowerWinService.Tests.Services
 
             Assert.AreEqual(firstTradeSecondPeriodVolume + secondTradeSecondPeriodVolume, aggregatedPowerDtos[1].Volume);
         }
+        
+        [TestMethod]
+        public void GetAggregatedPowerDtos_TwoTradesTwoPeriods_TwoAggregatedPeriodsReturned()
+        {
+            var numberOfTradePeriods = 2;
+            var powerTradeDtos = GetTwoPowerTradeDtos();
+            var tradeProcessorService = GetTradeProcessorService();
+            
+            var aggregatedPowerDtos = tradeProcessorService.GetAggregatedPowerDtos(powerTradeDtos);
 
-        private static List<PowerTradeDto> GetPowerTradeDtos(int firstTradeFirstPeriodVolume = ANY_NUMBER, int firstTradeSecondPeriodVolume = ANY_NUMBER, int secondTradeFirstPeriodVolume = ANY_NUMBER, int secondTradeSecondPeriodVolume = ANY_NUMBER)
+            Assert.AreEqual(numberOfTradePeriods, aggregatedPowerDtos.Count);
+        }
+
+        private static List<PowerTradeDto> GetTwoPowerTradeDtos(int firstTradeFirstPeriodVolume = ANY_NUMBER, int firstTradeSecondPeriodVolume = ANY_NUMBER, int secondTradeFirstPeriodVolume = ANY_NUMBER, int secondTradeSecondPeriodVolume = ANY_NUMBER)
         {
             var anyDate = DateTime.Now;
             var powerTradeDtos = new List<PowerTradeDto>
