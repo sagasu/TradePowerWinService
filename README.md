@@ -29,7 +29,9 @@ I am not sure If I understand this requirement. I did not implement any complex 
 # To run app as a service
 1. Publish service
 2. `sc.exe create "Trade Service" binpath="C:\\Program Files\\dotnet\\dotnet.exe D:\\worek\\repos\\TradePowerWinService\\TradePowerWinService\\bin\\Release\\net6.0\\publish\\TradePowerWinService.dll"`
-
+  
+Just change the path to publish directory.  
+  
 # To unregister the service
 1. `sc stop "Trade Service"`
 2. `sc delete "Trade Service"`
