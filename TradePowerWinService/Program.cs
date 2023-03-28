@@ -12,7 +12,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddTransient<IDateTimeService, DateTimeService>();
         services.AddHostedService<TimedService>();
         services.Configure<ServiceConfig>(context.Configuration.GetSection(ServiceConfig.ServiceConfigName));
-    })
+    }).UseWindowsService()
 
     .Build();
 

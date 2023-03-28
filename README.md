@@ -25,3 +25,11 @@ I am not sure If I understand this requirement. I did not implement any complex 
 * If a project is going to grow I recommend extracting `Services` folder and `Models` folder to external projects. As it is implemented now I feel like the project is too small for that and I recommend keeping it all together.  
 * Extracting DI configuration from Program file to a separate class.  
 * More Unit Tests
+
+# To run app as a service
+1. Publish service
+2. `sc.exe create "Trade Service" binpath="C:\\Program Files\\dotnet\\dotnet.exe D:\\worek\\repos\\TradePowerWinService\\TradePowerWinService\\bin\\Release\\net6.0\\publish\\TradePowerWinService.dll"`
+
+# To unregister the service
+1. `sc stop "Trade Service"`
+2. `sc delete "Trade Service"`
