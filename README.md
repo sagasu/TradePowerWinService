@@ -33,3 +33,7 @@ I am not sure If I understand this requirement. I did not implement any complex 
 # To unregister the service
 1. `sc stop "Trade Service"`
 2. `sc delete "Trade Service"`
+
+# Logs
+All logs should be available under `Application` log name in Event Viewer, even when running app as a service.
+![Event viewer](./EventLogLogs.png)
